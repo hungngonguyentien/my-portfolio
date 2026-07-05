@@ -37,6 +37,7 @@ interface CharacterCardProps {
   isHovered: boolean;
   isSelected: boolean;
   isLoser: boolean;
+  clickPulse: boolean;
   onHover: () => void;
   onLeave: () => void;
   onSelect: () => void;
@@ -50,6 +51,7 @@ function CharacterCard({
   isHovered,
   isSelected,
   isLoser,
+  clickPulse,
   onHover,
   onLeave,
   onSelect,
@@ -62,6 +64,7 @@ function CharacterCard({
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       onClick={onSelect}
+      whileTap={reduced ? undefined : { scale: 0.97 }}
       className="group relative flex w-full max-w-sm flex-col items-center gap-3 bg-transparent p-0"
       aria-pressed={isSelected}
       aria-label={`Select ${label}`}
@@ -85,6 +88,28 @@ function CharacterCard({
       }
     >
       <div className="relative flex h-80 w-full items-end justify-center">
+        <AnimatePresence>
+          {clickPulse && !reduced && (
+            <>
+              <motion.span
+                aria-hidden
+                className="absolute bottom-6 left-1/2 h-10 w-10 -translate-x-1/2 rounded-full border-2 border-accent bg-accent/20"
+                initial={{ scale: 0.6, opacity: 0.7 }}
+                animate={{ scale: 2.8, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.55, ease: "easeOut" }}
+              />
+              <motion.span
+                aria-hidden
+                className="absolute bottom-6 left-1/2 h-10 w-10 -translate-x-1/2 rounded-full border border-accent/60"
+                initial={{ scale: 0.8, opacity: 0.5 }}
+                animate={{ scale: 2, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut", delay: 0.05 }}
+              />
+            </>
+          )}
+        </AnimatePresence>
         {!reduced && isSelected && (
           <motion.div
             aria-hidden
@@ -120,6 +145,7 @@ function CharacterCard({
 
 export default function PickASide() {
   const [hovered, setHovered] = useState<Side | null>(null);
+  const [clickPulse, setClickPulse] = useState<Side | null>(null);
   const { selected, setSelected } = useLens();
   const reduced = useReducedMotion();
   const item = fadeUpVariants(reduced);
@@ -127,6 +153,14 @@ export default function PickASide() {
 
   const workImageState = getImageState("work", selected, hovered);
   const projectsImageState = getImageState("projects", selected, hovered);
+
+  function handleSelect(side: Side) {
+    if (selected && selected !== side) {
+      setClickPulse(side);
+      window.setTimeout(() => setClickPulse(null), 600);
+    }
+    setSelected(side);
+  }
 
   return (
     <section
@@ -171,9 +205,10 @@ export default function PickASide() {
               isHovered={hovered === "work"}
               isSelected={selected === "work"}
               isLoser={selected === "projects" && hovered !== "work"}
+              clickPulse={clickPulse === "work"}
               onHover={() => setHovered("work")}
               onLeave={() => setHovered(null)}
-              onSelect={() => setSelected("work")}
+              onSelect={() => handleSelect("work")}
             />
           </motion.div>
           <motion.div variants={item} className="flex w-full justify-center">
@@ -185,9 +220,10 @@ export default function PickASide() {
               isHovered={hovered === "projects"}
               isSelected={selected === "projects"}
               isLoser={selected === "work" && hovered !== "projects"}
+              clickPulse={clickPulse === "projects"}
               onHover={() => setHovered("projects")}
               onLeave={() => setHovered(null)}
-              onSelect={() => setSelected("projects")}
+              onSelect={() => handleSelect("projects")}
             />
           </motion.div>
         </motion.div>
