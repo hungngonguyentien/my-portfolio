@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --blush: #f9edf0;
+  --champagne: #e6c8b7;
+  --cognac: #c3955b;
+  --amber: #ba6a36;
+  --emerald: #1c3934;
+  --espresso: #261311;
+
+  --background: var(--blush);
+  --foreground: var(--espresso);
+  --surface: #ffffff;
+  --surface-muted: var(--champagne);
+  --heading: var(--emerald);
+  --accent: var(--amber);
+  --accent-muted: var(--cognac);
+  --border: color-mix(in srgb, var(--champagne) 60%, var(--espresso) 8%);
+  --muted: color-mix(in srgb, var(--espresso) 65%, transparent);
+}
+
+.dark {
+  --background: #1a1210;
+  --foreground: var(--blush);
+  --surface: #261311;
+  --surface-muted: #2f1c18;
+  --heading: var(--champagne);
+  --accent: var(--cognac);
+  --accent-muted: var(--amber);
+  --border: color-mix(in srgb, var(--emerald) 40%, var(--espresso) 60%);
+  --muted: color-mix(in srgb, var(--blush) 55%, transparent);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-heading: var(--heading);
+  --color-accent: var(--accent);
+  --color-accent-muted: var(--accent-muted);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-blush: var(--blush);
+  --color-champagne: var(--champagne);
+  --color-cognac: var(--cognac);
+  --color-amber: var(--amber);
+  --color-emerald: var(--emerald);
+  --color-espresso: var(--espresso);
+  --font-sans: var(--font-plus-jakarta);
+  --font-display: var(--font-fraunces);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@utility font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
+
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: auto !important;
+  }
+}
+
