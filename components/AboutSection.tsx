@@ -9,11 +9,11 @@ import { resumeMaterial } from "@/data/materials";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
 
 const UNR_IMAGES = [
-  "/unr-1.JPG",
-  "/unr-2.JPG",
-  "/unr-3.JPG",
-  "/unr-4.JPG",
-  "/unr-5.JPG",
+  "/unr-1-2.jpg",
+  "/unr-2-2.jpg",
+  "/unr-3-2.jpg",
+  "/unr-4-2.jpg",
+  "/unr-5-2.jpg",
 ];
 
 function UnrHover() {
@@ -200,7 +200,7 @@ export default function AboutSection() {
               }
             >
               <Image
-                src="/main-self-photo.JPG"
+                src="/main-self-photo-2.jpg"
                 alt="Hung Ngo"
                 fill
                 priority

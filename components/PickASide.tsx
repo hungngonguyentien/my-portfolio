@@ -26,7 +26,7 @@ function getImageState(
 }
 
 function getImageSrc(side: Side, state: ImageState): string {
-  return `/${side}-${state}.png`;
+  return `/${side}-${state}-2.png`;
 }
 
 interface CharacterCardProps {

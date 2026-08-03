@@ -14,9 +14,9 @@ export const experiences: ExperienceItem[] = [
       "Developed reusable React TypeScript UI components and designed the company onboarding flow to improve user activation, streamline edge-case handling, and support adoption across multiple production pages",
     ],
     images: [
-      "/address-income-1.JPEG",
-      "/address-income-2.jpeg",
-      "/address-income-3.png",
+      "/address-income-1.jpg",
+      "/address-income-2.jpg",
+      "/address-income-3-2.png",
     ],
     tech: [
       "PyTorch",
