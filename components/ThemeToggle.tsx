@@ -38,7 +38,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className="fixed top-4 right-4 z-[60] flex h-10 w-10 items-center justify-center rounded-full border border-border/80 bg-surface/85 text-base shadow-lg shadow-espresso/10 backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-surface-muted"
+      className="fixed top-3 right-3 z-[60] flex h-9 w-9 items-center justify-center rounded-full border border-border/80 bg-surface/85 text-sm shadow-lg shadow-espresso/10 backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-surface-muted sm:top-4 sm:right-4 sm:h-10 sm:w-10 sm:text-base"
     >
       {mounted ? (theme === "dark" ? "☀️" : "🌙") : "◐"}
     </button>

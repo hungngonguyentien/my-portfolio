@@ -62,10 +62,10 @@ export default function FloatingNav() {
   return (
     <nav
       aria-label="Section navigation"
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4"
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center pl-3 pr-14 pt-3 sm:px-4 sm:pt-4"
     >
       <ul
-        className={`pointer-events-auto flex items-center gap-1 rounded-full border px-1.5 py-1.5 transition-all duration-300 ${
+        className={`pointer-events-auto flex max-w-full items-center gap-0.5 overflow-x-auto rounded-full border px-1 py-1 transition-all duration-300 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:gap-1 sm:px-1.5 sm:py-1.5 ${
           scrolled
             ? "border-border/80 bg-surface/85 shadow-lg shadow-espresso/10 backdrop-blur-md"
             : "border-transparent bg-surface/60 shadow-md shadow-espresso/5 backdrop-blur-sm"
@@ -74,7 +74,7 @@ export default function FloatingNav() {
         {sections.map(({ id, label }) => {
           const isActive = activeId === id;
           return (
-            <li key={id} className="relative">
+            <li key={id} className="relative shrink-0">
               {isActive && (
                 <motion.span
                   layoutId="nav-active-pill"
@@ -85,7 +85,7 @@ export default function FloatingNav() {
               <a
                 href={`#${id}`}
                 onClick={(event) => handleNavClick(event, id)}
-                className={`relative z-10 block rounded-full px-3 py-2 text-sm font-medium tracking-wide transition-colors duration-200 sm:px-4 ${
+                className={`relative z-10 block whitespace-nowrap rounded-full px-2 py-1.5 text-[11px] font-medium tracking-wide transition-colors duration-200 sm:px-3.5 sm:py-2 sm:text-sm ${
                   isActive
                     ? "text-blush"
                     : "text-muted hover:bg-surface-muted/70 hover:text-heading"
