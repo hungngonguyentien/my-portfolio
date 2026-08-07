@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import TechLogoRow from "@/components/TechLogoRow";
 import { experiences, getExperienceBySlug } from "@/data/experience";
 
 export function generateStaticParams() {
@@ -23,7 +24,7 @@ export default async function ExperiencePage({
       <header className="border-b border-border px-6 py-6">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
           <Link
-            href="/#choose"
+            href="/#experience"
             className="text-sm font-semibold text-accent hover:text-accent-muted"
           >
             ← Back to home
@@ -42,6 +43,12 @@ export default async function ExperiencePage({
           {experience.company}
         </p>
         <p className="mt-1 text-sm text-muted">{experience.period}</p>
+
+        {experience.logos && experience.logos.length > 0 && (
+          <div className="mt-3 flex justify-start">
+            <TechLogoRow logos={experience.logos} align="start" />
+          </div>
+        )}
 
         <p className="mt-8 text-lg leading-relaxed text-muted">
           {experience.description}

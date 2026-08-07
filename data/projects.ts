@@ -6,11 +6,11 @@ export const projects: ProjectItem[] = [
     title: "Ryftborn",
     period: "Spring 2026 – Present",
     description:
-      "Custom multiplayer game server deployed on VPS (Hetzner) with automated Git-based deployment workflows.",
+      "Custom multiplayer game server with automated deployment workflows.",
     bullets: [
-      "Engineered champion-based PvP combat systems, ranked matchmaking, progression mechanics, and multiplayer gameplay features using custom server plugins.",
-      "Built and maintained VPS infrastructure with GitHub-based CI/CD pipelines for automated deployment, live testing, and rapid iteration.",
-      "Designed gameplay UX systems including combat feedback, sound effects, onboarding flow, and progression rewards through iterative player testing.",
+      "Engineered champion-based PvP combat systems, ranked matchmaking, progression mechanics, and multiplayer gameplay features using custom server plugins",
+      "Built and maintained server infrastructure with automated deployment pipelines for live testing and rapid iteration",
+      "Designed gameplay UX systems including combat feedback, sound effects, onboarding flow, and progression rewards through iterative player testing",
     ],
     tech: ["Java", "Minecraft Plugins", "VPS", "GitHub Actions", "Hetzner"],
     images: ["/minecraft-1.png", "/minecraft-2.png", "/minecraft-3.png"],
@@ -20,12 +20,12 @@ export const projects: ProjectItem[] = [
     title: "WorkTemply",
     period: "Fall 2025 – Present",
     description:
-      "Full-stack SaaS platform built with Next.js (frontend + backend), MongoDB, and deployed on Vercel.",
+      "Full-stack AI writing SaaS with authentication, billing, and production deployment.",
     bullets: [
-      "Built a production-ready SaaS with user authentication (NextAuth), Paddle billing integration, and customer email handling through Resend.",
-      "Developed 30+ AI-powered writing workflows alongside SEO-optimized landing pages and public template systems focused on discoverability and performance.",
+      "Built a production-ready SaaS with user authentication, billing integration, and customer email handling",
+      "Developed 30+ AI-powered writing workflows alongside SEO-optimized landing pages and public template systems focused on discoverability and performance",
     ],
-    tech: ["Next.js", "MongoDB", "NextAuth", "Paddle", "Vercel"],
+    tech: ["Next.js", "MongoDB", "NextAuth", "Paddle", "Resend", "Vercel"],
     images: [
       "/work-temply-1.png",
       "/work-temply-2.png",

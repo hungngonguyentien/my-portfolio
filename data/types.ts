@@ -6,7 +6,8 @@ export interface ExperienceItem {
   description: string;
   bullets: string[];
   images?: string[];
-  tech?: string[];
+  /** Brand logos shown under the timeline date */
+  logos?: import("./techLogos").TechLogo[];
   website?: string;
 }
 

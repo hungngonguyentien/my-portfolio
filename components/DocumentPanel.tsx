@@ -21,10 +21,12 @@ export default function DocumentPanel({ material, onClose }: DocumentPanelProps)
     };
 
     document.body.style.overflow = "hidden";
+    document.documentElement.classList.add("document-preview-open");
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.classList.remove("document-preview-open");
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [open, onClose]);

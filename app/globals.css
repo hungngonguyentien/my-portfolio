@@ -72,6 +72,12 @@ html.custom-cursor * {
   cursor: none !important;
 }
 
+/* Force system cursor while a document preview is open (iframe + panel). */
+html.document-preview-open,
+html.document-preview-open * {
+  cursor: auto !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

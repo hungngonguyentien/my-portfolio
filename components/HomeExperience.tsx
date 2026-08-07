@@ -3,22 +3,23 @@
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import CustomCursor from "@/components/CustomCursor";
+import ExperienceSection from "@/components/ExperienceSection";
 import FloatingNav from "@/components/FloatingNav";
-import { LensProvider } from "@/components/LensContext";
 import MaterialsSection from "@/components/MaterialsSection";
-import PickASide from "@/components/PickASide";
+import ProjectsSection from "@/components/ProjectsSection";
 
 export default function HomeExperience() {
   return (
-    <LensProvider>
+    <>
       <CustomCursor />
       <FloatingNav />
       <main>
         <AboutSection />
-        <PickASide />
+        <ExperienceSection />
+        <ProjectsSection />
         <MaterialsSection />
         <ContactSection />
       </main>
-    </LensProvider>
+    </>
   );
 }

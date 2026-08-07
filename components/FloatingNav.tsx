@@ -5,7 +5,8 @@ import { useEffect, useState, type MouseEvent } from "react";
 
 const sections = [
   { id: "about", label: "About" },
-  { id: "choose", label: "Choose" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
   { id: "materials", label: "Materials" },
   { id: "contact", label: "Contact" },
 ] as const;

@@ -23,7 +23,7 @@ export default async function ProjectPage({
       <header className="border-b border-border px-6 py-6">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
           <Link
-            href="/#choose"
+            href="/#projects"
             className="text-sm font-semibold text-accent hover:text-accent-muted"
           >
             ← Back to home
@@ -40,17 +40,6 @@ export default async function ProjectPage({
         </h1>
         <p className="mt-2 text-sm text-muted">{project.period}</p>
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          {project.tech.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-muted"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
         <p className="mt-8 text-lg leading-relaxed text-muted">
           {project.description}
         </p>
@@ -66,6 +55,19 @@ export default async function ProjectPage({
             </li>
           ))}
         </ul>
+
+        {project.tech.length > 0 && (
+          <div className="mt-8 flex flex-wrap gap-2">
+            {project.tech.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-accent/12 px-3 py-1 text-xs font-semibold text-accent dark:bg-accent/20"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );

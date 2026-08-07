@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AmbientBlobs from "./AmbientBlobs";
 import DocumentPanel from "./DocumentPanel";
+import { contact } from "@/data/contact";
 import { resumeMaterial } from "@/data/materials";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
 
@@ -15,6 +16,72 @@ const UNR_IMAGES = [
   "/unr-4-2.jpg",
   "/unr-5-2.jpg",
 ];
+
+function CopyEmailButton() {
+  const [copied, setCopied] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  const handleCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(contact.email);
+      setCopied(true);
+    } catch {
+      const input = document.createElement("input");
+      input.value = contact.email;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+      setCopied(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!copied) return;
+    const id = window.setTimeout(() => setCopied(false), 2000);
+    return () => window.clearTimeout(id);
+  }, [copied]);
+
+  const status = copied ? "Copied" : hovered ? "Click to copy" : null;
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+      className="group inline-flex flex-wrap items-center gap-x-2 gap-y-0.5 text-left"
+      aria-label={copied ? "Email copied" : "Copy email to clipboard"}
+    >
+      <span
+        className={`inline-flex items-center gap-1.5 font-medium transition-colors ${
+          copied || hovered ? "text-accent" : "text-muted"
+        }`}
+      >
+        {contact.email}
+        <span aria-hidden className="text-sm">
+          ⧉
+        </span>
+      </span>
+      <AnimatePresence mode="wait" initial={false}>
+        {status && (
+          <motion.span
+            key={status}
+            initial={{ opacity: 0, y: 3 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -2 }}
+            transition={{ duration: 0.15 }}
+            className="text-sm font-medium text-accent"
+          >
+            {status}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
+  );
+}
 
 function UnrHover() {
   const [hovered, setHovered] = useState(false);
@@ -248,12 +315,36 @@ export default function AboutSection() {
               studying Computer Science at <UnrHover />, with experience
               building production software, AI features, and backend systems.
             </motion.p>
-            <motion.p variants={item}>
-              I build software around things I genuinely care about — from
-              production systems and client work to personal projects like game
-              servers and niche tools. I care about making them useful, polished,
-              and enjoyable to use.
-            </motion.p>
+            <motion.div variants={item} className="space-y-2 pt-1">
+              <p className="font-medium text-foreground">Let&apos;s connect.</p>
+              <p>
+                <CopyEmailButton />
+              </p>
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                {contact.links
+                  .filter((link) => link.id === "github" || link.id === "linkedin")
+                  .map((link, i, arr) => (
+                    <span key={link.id} className="inline-flex items-center gap-x-3">
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-accent transition-colors hover:text-accent-muted"
+                      >
+                        {link.label}
+                        <span aria-hidden className="ml-0.5">
+                          ↗
+                        </span>
+                      </a>
+                      {i < arr.length - 1 && (
+                        <span className="text-border" aria-hidden>
+                          ·
+                        </span>
+                      )}
+                    </span>
+                  ))}
+              </p>
+            </motion.div>
           </motion.div>
         </motion.div>
       </motion.div>
