@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 
 const sections = [
   { id: "about", label: "About" },
@@ -11,12 +11,42 @@ const sections = [
   { id: "contact", label: "Contact" },
 ] as const;
 
+type SectionId = (typeof sections)[number]["id"];
+
 export default function FloatingNav() {
   const [activeId, setActiveId] = useState<string>("about");
   const [scrolled, setScrolled] = useState(false);
+  // While smooth-scrolling from a nav click, ignore intermediate section hits
+  // so the active pill doesn't jump through every section in between.
+  const lockedTargetRef = useRef<SectionId | null>(null);
+  const unlockTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
+    const unlock = () => {
+      lockedTargetRef.current = null;
+      if (unlockTimerRef.current !== null) {
+        window.clearTimeout(unlockTimerRef.current);
+        unlockTimerRef.current = null;
+      }
+    };
+
     const updateActiveSection = () => {
+      setScrolled(window.scrollY > 12);
+
+      // Keep the clicked section highlighted until we arrive (or timeout).
+      if (lockedTargetRef.current) {
+        const targetEl = document.getElementById(lockedTargetRef.current);
+        if (targetEl) {
+          const top = targetEl.getBoundingClientRect().top;
+          // Close enough to the sticky offset — unlock and sync.
+          if (Math.abs(top - 120) < 80 || top <= 120) {
+            setActiveId(lockedTargetRef.current);
+            unlock();
+          }
+        }
+        return;
+      }
+
       const offset = 120;
       const scrollBottom = window.scrollY + window.innerHeight;
       const pageHeight = document.documentElement.scrollHeight;
@@ -24,11 +54,10 @@ export default function FloatingNav() {
       // Short last sections never reach the offset line — treat near-bottom as Contact.
       if (scrollBottom >= pageHeight - 100) {
         setActiveId(sections[sections.length - 1].id);
-        setScrolled(window.scrollY > 12);
         return;
       }
 
-      let current: (typeof sections)[number]["id"] = sections[0].id;
+      let current: SectionId = sections[0].id;
 
       for (const { id } of sections) {
         const el = document.getElementById(id);
@@ -39,7 +68,6 @@ export default function FloatingNav() {
       }
 
       setActiveId(current);
-      setScrolled(window.scrollY > 12);
     };
 
     updateActiveSection();
@@ -47,14 +75,27 @@ export default function FloatingNav() {
     window.addEventListener("resize", updateActiveSection);
 
     return () => {
+      unlock();
       window.removeEventListener("scroll", updateActiveSection);
       window.removeEventListener("resize", updateActiveSection);
     };
   }, []);
 
-  function handleNavClick(event: MouseEvent<HTMLAnchorElement>, id: string) {
+  function handleNavClick(event: MouseEvent<HTMLAnchorElement>, id: SectionId) {
     event.preventDefault();
+
+    lockedTargetRef.current = id;
     setActiveId(id);
+
+    if (unlockTimerRef.current !== null) {
+      window.clearTimeout(unlockTimerRef.current);
+    }
+    // Safety unlock if scrollend never settles (very long pages / interrupted).
+    unlockTimerRef.current = window.setTimeout(() => {
+      lockedTargetRef.current = null;
+      unlockTimerRef.current = null;
+    }, 1200);
+
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     window.history.replaceState(null, "", `#${id}`);
   }
@@ -79,7 +120,7 @@ export default function FloatingNav() {
                 <motion.span
                   layoutId="nav-active-pill"
                   className="absolute inset-0 rounded-full bg-heading shadow-sm"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  transition={{ type: "spring", stiffness: 420, damping: 36 }}
                 />
               )}
               <a

@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
-import CopyEmailButton from "@/components/CopyEmailButton";
 import DocumentPanel from "./DocumentPanel";
 import { materials, type MaterialItem } from "@/data/materials";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
@@ -71,16 +70,16 @@ export default function MaterialsSection() {
               Resumes
             </p>
             <h2 className="mt-2 font-display text-3xl font-semibold text-heading md:text-4xl">
-              Pick the resume that fits
+              Documents for recruiters
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-muted">
-              Two focused versions — software engineering and ML/AI — depending
-              on the role you&apos;re hiring for.
+              Two focused resumes plus a recommendation from my Address Income
+              internship.
             </p>
           </motion.div>
 
           <motion.div
-            className="mx-auto grid max-w-3xl gap-5 sm:grid-cols-2"
+            className="mx-auto grid max-w-4xl gap-5 sm:grid-cols-2 lg:grid-cols-3"
             variants={container}
           >
             {materials.map((material) => (

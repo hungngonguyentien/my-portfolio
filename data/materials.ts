@@ -21,6 +21,13 @@ export const materials: MaterialItem[] = [
     path: "/ML-AI-Engineer-Resume.pdf",
     downloadName: "Hung_Ngo_ML_AI_Engineer_Resume.pdf",
   },
+  {
+    id: "recommendation",
+    title: "Recommendation Letter",
+    description: "From Address Income",
+    path: "/Recommendation Letter - Hung.pdf",
+    downloadName: "Recommendation_Letter_Address_Income.pdf",
+  },
 ];
 
 export const softwareEngineeringResume = materials[0];
