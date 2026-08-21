@@ -4,7 +4,7 @@ export const projects: ProjectItem[] = [
   {
     slug: "ryftborn",
     title: "Ryftborn",
-    period: "Spring 2026 – Present",
+    period: "Spring & Summer 2026",
     description:
       "Custom multiplayer game server with automated deployment workflows.",
     bullets: [
@@ -18,7 +18,7 @@ export const projects: ProjectItem[] = [
   {
     slug: "worktemply",
     title: "WorkTemply",
-    period: "Fall 2025 – Present",
+    period: "Fall 2025",
     description:
       "Full-stack AI writing SaaS with authentication, billing, and production deployment.",
     bullets: [

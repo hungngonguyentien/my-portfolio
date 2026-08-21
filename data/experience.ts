@@ -33,7 +33,7 @@ export const experiences: ExperienceItem[] = [
   {
     slug: "vinfast-freelance",
     title: "Website Developer",
-    company: "Vinfast Phu Dung (Freelance)",
+    company: "VinFast Phu Dung (Freelance)",
     period: "September 2025 - October 2025",
     description:
       "An official VinFast electric bike dealership website for Phú Dũng in Đắk Lắk.",

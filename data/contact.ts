@@ -11,11 +11,6 @@ export const contact = {
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/nguyen-tien-hung-ngo-021306373",
     },
-    {
-      id: "instagram",
-      label: "Instagram",
-      href: "https://www.instagram.com/ngu.yentienhungn/",
-    },
   ],
 } as const;
 

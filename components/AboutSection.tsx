@@ -2,11 +2,16 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AmbientBlobs from "./AmbientBlobs";
+import CopyEmailButton from "./CopyEmailButton";
 import DocumentPanel from "./DocumentPanel";
 import { contact } from "@/data/contact";
-import { resumeMaterial } from "@/data/materials";
+import {
+  mlAiResume,
+  softwareEngineeringResume,
+  type MaterialItem,
+} from "@/data/materials";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
 
 const UNR_IMAGES = [
@@ -16,72 +21,6 @@ const UNR_IMAGES = [
   "/unr-4-2.jpg",
   "/unr-5-2.jpg",
 ];
-
-function CopyEmailButton() {
-  const [copied, setCopied] = useState(false);
-  const [hovered, setHovered] = useState(false);
-
-  const handleCopy = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(contact.email);
-      setCopied(true);
-    } catch {
-      const input = document.createElement("input");
-      input.value = contact.email;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand("copy");
-      document.body.removeChild(input);
-      setCopied(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!copied) return;
-    const id = window.setTimeout(() => setCopied(false), 2000);
-    return () => window.clearTimeout(id);
-  }, [copied]);
-
-  const status = copied ? "Copied" : hovered ? "Click to copy" : null;
-
-  return (
-    <button
-      type="button"
-      onClick={handleCopy}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocus={() => setHovered(true)}
-      onBlur={() => setHovered(false)}
-      className="group inline-flex flex-wrap items-center gap-x-2 gap-y-0.5 text-left"
-      aria-label={copied ? "Email copied" : "Copy email to clipboard"}
-    >
-      <span
-        className={`inline-flex items-center gap-1.5 font-medium transition-colors ${
-          copied || hovered ? "text-accent" : "text-muted"
-        }`}
-      >
-        {contact.email}
-        <span aria-hidden className="text-sm">
-          ⧉
-        </span>
-      </span>
-      <AnimatePresence mode="wait" initial={false}>
-        {status && (
-          <motion.span
-            key={status}
-            initial={{ opacity: 0, y: 3 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -2 }}
-            transition={{ duration: 0.15 }}
-            className="text-sm font-medium text-accent"
-          >
-            {status}
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </button>
-  );
-}
 
 function UnrHover() {
   const [hovered, setHovered] = useState(false);
@@ -177,7 +116,15 @@ function UnrHover() {
   );
 }
 
-function ResumeTrigger({ onOpen }: { onOpen: () => void }) {
+function ResumeTrigger({
+  label,
+  tooltip,
+  onOpen,
+}: {
+  label: string;
+  tooltip: string;
+  onOpen: () => void;
+}) {
   const [hovered, setHovered] = useState(false);
   const reduced = useReducedMotion();
 
@@ -194,7 +141,7 @@ function ResumeTrigger({ onOpen }: { onOpen: () => void }) {
         onBlur={() => setHovered(false)}
         className="cursor-pointer font-semibold text-accent underline decoration-accent/40 decoration-2 underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
-        full-stack developer
+        {label}
       </button>
 
       <AnimatePresence>
@@ -206,7 +153,7 @@ function ResumeTrigger({ onOpen }: { onOpen: () => void }) {
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: 4, scale: 0.95 }}
             transition={{ duration: reduced ? 0.12 : 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            click me
+            {tooltip}
           </motion.span>
         )}
       </AnimatePresence>
@@ -215,7 +162,7 @@ function ResumeTrigger({ onOpen }: { onOpen: () => void }) {
 }
 
 export default function AboutSection() {
-  const [resumeOpen, setResumeOpen] = useState(false);
+  const [activeResume, setActiveResume] = useState<MaterialItem | null>(null);
   const reduced = useReducedMotion();
   const item = fadeUpVariants(reduced);
   const container = staggerContainer(reduced);
@@ -311,9 +258,21 @@ export default function AboutSection() {
             className="space-y-5 text-base leading-relaxed text-muted md:text-lg"
           >
             <motion.p variants={item}>
-              I&apos;m a <ResumeTrigger onOpen={() => setResumeOpen(true)} />{" "}
+              I&apos;m a{" "}
+              <ResumeTrigger
+                label="full-stack developer"
+                tooltip="View Full Stack Resume"
+                onOpen={() => setActiveResume(softwareEngineeringResume)}
+              />{" "}
+              and{" "}
+              <ResumeTrigger
+                label="ML engineer"
+                tooltip="View AI/ML Engineering Resume"
+                onOpen={() => setActiveResume(mlAiResume)}
+              />{" "}
               studying Computer Science at <UnrHover />, with experience
-              building production software, AI features, and backend systems.
+              building production software, deploying ML models, and shipping
+              backend systems.
             </motion.p>
             <motion.div variants={item} className="space-y-2 pt-1">
               <p className="font-medium text-foreground">Let&apos;s connect.</p>
@@ -321,28 +280,26 @@ export default function AboutSection() {
                 <CopyEmailButton />
               </p>
               <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                {contact.links
-                  .filter((link) => link.id === "github" || link.id === "linkedin")
-                  .map((link, i, arr) => (
-                    <span key={link.id} className="inline-flex items-center gap-x-3">
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-medium text-accent transition-colors hover:text-accent-muted"
-                      >
-                        {link.label}
-                        <span aria-hidden className="ml-0.5">
-                          ↗
-                        </span>
-                      </a>
-                      {i < arr.length - 1 && (
-                        <span className="text-border" aria-hidden>
-                          ·
-                        </span>
-                      )}
-                    </span>
-                  ))}
+                {contact.links.map((link, i, arr) => (
+                  <span key={link.id} className="inline-flex items-center gap-x-3">
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-accent transition-colors hover:text-accent-muted"
+                    >
+                      {link.label}
+                      <span aria-hidden className="ml-0.5">
+                        ↗
+                      </span>
+                    </a>
+                    {i < arr.length - 1 && (
+                      <span className="text-border" aria-hidden>
+                        ·
+                      </span>
+                    )}
+                  </span>
+                ))}
               </p>
             </motion.div>
           </motion.div>
@@ -351,8 +308,8 @@ export default function AboutSection() {
     </section>
 
     <DocumentPanel
-      material={resumeOpen ? resumeMaterial : null}
-      onClose={() => setResumeOpen(false)}
+      material={activeResume}
+      onClose={() => setActiveResume(null)}
     />
     </>
   );

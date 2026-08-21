@@ -8,26 +8,23 @@ export interface MaterialItem {
 
 export const materials: MaterialItem[] = [
   {
-    id: "resume",
-    title: "Resume",
-    description: "Experience, projects, and technical skills",
-    path: "/Hung_Ngo_Resume.pdf",
-    downloadName: "Hung_Ngo_Resume.pdf",
+    id: "software-engineering-resume",
+    title: "Software Engineering Resume",
+    description: "Full-stack, backend, and product-focused experience",
+    path: "/Software-Engineering-Resume.pdf",
+    downloadName: "Hung_Ngo_Software_Engineering_Resume.pdf",
   },
   {
-    id: "transcript",
-    title: "Transcript",
-    description: "Official academic transcript from UNR",
-    path: "/transcript.pdf",
-    downloadName: "Hung_Ngo_Transcript.pdf",
-  },
-  {
-    id: "recommendation",
-    title: "Recommendation Letter",
-    description: "From Address Income",
-    path: "/Recommendation Letter - Hung.pdf",
-    downloadName: "Recommendation_Letter_Address_Income.pdf",
+    id: "ml-ai-resume",
+    title: "ML/AI Engineer Resume",
+    description: "ML models, data systems, and applied AI work",
+    path: "/ML-AI-Engineer-Resume.pdf",
+    downloadName: "Hung_Ngo_ML_AI_Engineer_Resume.pdf",
   },
 ];
 
-export const resumeMaterial = materials[0];
+export const softwareEngineeringResume = materials[0];
+export const mlAiResume = materials[1];
+
+/** @deprecated Use softwareEngineeringResume or mlAiResume */
+export const resumeMaterial = softwareEngineeringResume;

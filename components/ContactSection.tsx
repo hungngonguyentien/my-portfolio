@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import CopyEmailButton from "@/components/CopyEmailButton";
 import { SocialIcon } from "@/components/SocialIcons";
 import { contact } from "@/data/contact";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
@@ -62,12 +63,6 @@ export default function ContactSection() {
           variants={item}
           className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <a
-            href={`mailto:${contact.email}`}
-            className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-blush shadow-sm transition-colors hover:bg-accent-muted"
-          >
-            Email me
-          </a>
           <div className="flex items-center gap-3">
             {contact.links.map((link) => (
               <a
@@ -85,14 +80,9 @@ export default function ContactSection() {
           </div>
         </motion.div>
 
-        <motion.p variants={item} className="mt-5 text-sm text-muted">
-          <a
-            href={`mailto:${contact.email}`}
-            className="underline decoration-accent/30 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
-          >
-            {contact.email}
-          </a>
-        </motion.p>
+        <motion.div variants={item} className="mt-5">
+          <CopyEmailButton centered />
+        </motion.div>
       </motion.div>
     </section>
   );
